@@ -1,0 +1,31 @@
+{
+  "name": "spincord",
+  "version": "1.0.0",
+  "description": "a discord bot for getting album info in chat",
+  "main": "./dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kmrn/spincord.git"
+  },
+  "author": "Kamran Payne",
+  "license": "MIT",
+  "scripts": {
+    "start": "tsc && node dist/app.js",
+    "dev": "ts-node-dev src/app.ts",
+    "lint": "eslint . --ext .ts"
+  },
+  "devDependencies": {
+    "@types/node": "^14.10.1",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
+    "eslint": "^7.9.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.1.1",
+    "ts-node-dev": "^1.0.0-pre.62",
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "discord.js": "^12.3.1"
+  }
+}
