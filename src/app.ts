@@ -12,4 +12,5 @@ client.on('message', (message) => {
     if (message.author.bot) return;
     console.log(message.content);
 });
+
 client.login(process.env.SPINCORD_BOT_TOKEN);
