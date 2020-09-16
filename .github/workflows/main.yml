@@ -14,10 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install dependencies
+        run: yarn
+
       - name: Lint
         run: yarn lint
 
-      - name: Run Unit Tests
+      - name: Run unit tests
         run: yarn test
 
       - name: Build
