@@ -11,6 +11,7 @@
   "license": "MIT",
   "scripts": {
     "start": "tsc && node dist/app.js",
+    "build": "tsc",
     "dev": "ts-node-dev src/app.ts",
     "lint": "eslint . --ext .ts",
     "test": "jest"
