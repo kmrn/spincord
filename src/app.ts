@@ -5,6 +5,7 @@
  */
 
 import { Client, Message } from 'discord.js';
+import Spincord from './spincord';
 
 const prefix = '!';
 const client = new Client();
@@ -20,14 +21,13 @@ client.on('message', async (message: Message) => {
     }
     const [commandString] = content.split(' ');
     const command = commandString.slice(prefix.length).toLowerCase();
-    const args = content.slice(commandString.length);
+    const args = content.slice(commandString.length + 1);
 
-    switch (command) {
-        case 'album':
-            break;
+    try {
+        await Spincord(message, command, args);
+    } catch (error) {
+        message.reply(`Ran into some trouble finding that one.\n\`\`\`${error}\`\`\``);
     }
-
-    message.reply(`wow thats like my favorite album`);
 });
 
 client.login(process.env.SPINCORD_BOT_TOKEN);
