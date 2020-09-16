@@ -2,7 +2,7 @@
   "name": "spincord",
   "version": "1.0.0",
   "description": "a discord bot for getting album info in chat",
-  "main": "./dist/index.js",
+  "main": "dist/app.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/kmrn/spincord.git"
