@@ -24,10 +24,3 @@ jobs:
 
       - name: Build
         run: yarn build
-
-  deploy:
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Push to server
-        run: echo 'this will eventually just deploy to like heroku or something'
