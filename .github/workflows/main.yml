@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SPINCORD_DISCOGS_KEY: ${{ secrets.SPINCORD_DISCOGS_KEY }}
+      SPINCORD_DISCOGS_SECRET: ${{ secrets.SPINCORD_DISCOGS_SECRET }}
 
     steps:
       - uses: actions/checkout@v2
@@ -19,8 +22,8 @@ jobs:
       - name: Lint
         run: yarn lint
 
-      # - name: Run unit tests
-      #   run: yarn test
+      - name: Run unit tests
+        run: yarn test
 
       - name: Build
         run: yarn build
