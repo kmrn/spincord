@@ -7,6 +7,9 @@ import { escape } from 'querystring';
 
 const { SPINCORD_DISCOGS_KEY, SPINCORD_DISCOGS_SECRET } = process.env;
 
+/**
+ * Result type returned by the Discogs search API
+ */
 export interface Result {
     id: number;
     country: string;
@@ -17,6 +20,9 @@ export interface Result {
     uri: string;
 }
 
+/**
+ * The Discogs Release data object
+ */
 export interface Release {
     id: number;
     country: string;
@@ -28,11 +34,19 @@ export interface Release {
     released: string;
 }
 
+/**
+ * Discogs marketplace data object
+ */
 export interface MarketplaceStats {
+    title: string;
     num_for_sale: number;
     lowest_price: number;
 }
 
+/**
+ * Takes a discogs API path and performs an authorized GET request.
+ * @param path Discogs api path string
+ */
 export const queryDiscogs = (path: string): Promise<string> => {
     const options = {
         hostname: 'api.discogs.com',
@@ -69,27 +83,53 @@ export const queryDiscogs = (path: string): Promise<string> => {
     });
 };
 
-export const searchDiscogs = async (query: string): Promise<Result[]> => {
+/**
+ * Takes a query string and returns an array of search results.
+ * @param query Discogs search query string
+ * @param type Type of results to filter by
+ * @param page Results page no
+ * @param perPage Amount of results per page
+ */
+export const searchDiscogs = async (
+    query: string,
+    type: 'release' | 'master' | 'artist' | 'none',
+    page: number,
+    perPage: number,
+): Promise<Result[]> => {
     const escapedQuery = escape(query);
-    const response = await queryDiscogs(`/database/search?q=${escapedQuery}&type=release&page=1&per_page=3`);
+    const response = await queryDiscogs(
+        `/database/search?q=${escapedQuery}&type=${type}&page=${page}&per_page=${perPage}`,
+    );
     const { results } = JSON.parse(response);
     return results;
 };
 
+/**
+ * Takes a discogs release ID and returns detailed release data.
+ * @param releaseId Discogs release ID integer
+ */
 export const getReleaseDetails = async (releaseId: number): Promise<Release> => {
     const response = await queryDiscogs(`/release/${releaseId}`);
     const release: Release = JSON.parse(response);
     return release;
 };
 
+/**
+ * Takes a discogs release ID and returns discogs marketplace statistics.
+ * @param releaseId Discogs release ID integer
+ */
 export const getMarketplaceStats = async (releaseId: number): Promise<MarketplaceStats> => {
     const response = await queryDiscogs(`/marketplace/stats/${releaseId}`);
     const stats: MarketplaceStats = JSON.parse(response);
     return stats;
 };
 
+/**
+ * Takes a best guess album name string and returns the first release search result
+ * @param album Album name
+ */
 export const getFirstAlbumResult = async (album: string): Promise<Result> => {
-    const results = await searchDiscogs(album);
+    const results = await searchDiscogs(album, 'release', 1, 3);
     const [firstResult] = results;
     return firstResult;
 };

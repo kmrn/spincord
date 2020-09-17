@@ -3,12 +3,16 @@
  */
 
 import { Message, MessageAttachment } from 'discord.js';
-import { findAlbum, getReleaseDetails } from './discogs';
+import { getFirstAlbumResult, getMarketplaceStats } from './discogs';
 
+/**
+ * Takes a query string and returns a string containing pricing info.
+ * @param query album name/discogs query string
+ */
 export const getStartingPrice = async (query: string): Promise<string> => {
-    const { resource_url } = await findAlbum(query);
-    const release = await getReleaseDetails(resource_url);
-    const { id, title, num_for_sale, lowest_price } = release;
+    const { id } = await getFirstAlbumResult(query);
+    const release = await getMarketplaceStats(id);
+    const { title, num_for_sale, lowest_price } = release;
     const marketplaceUrl = `https://www.discogs.com/sell/release/${id.toString()}`;
     const startingPrice = lowest_price.toFixed(2);
     if (num_for_sale < 1) {
@@ -23,14 +27,22 @@ export const getStartingPrice = async (query: string): Promise<string> => {
     return `There are ${num_for_sale} listings for ${title} starting at $${startingPrice}.\n\n${marketplaceUrl}`;
 };
 
+/**
+ * Takes a query string and returns the closest matched album art.
+ * @param query album name/discogs query string
+ */
 export const getAlbumArt = async (query: string): Promise<MessageAttachment> => {
-    const { cover_image } = await findAlbum(query);
+    const { cover_image } = await getFirstAlbumResult(query);
     const attachment = new MessageAttachment(cover_image);
     return attachment;
 };
 
+/**
+ * Takes a query string and returns a discogs URL with more info.
+ * @param query album name query string
+ */
 export const getAlbumInfo = async (query: string): Promise<string> => {
-    const { uri } = await findAlbum(query);
+    const { uri } = await getFirstAlbumResult(query);
     const message = 'https://discogs.com' + uri;
     return message;
 };
