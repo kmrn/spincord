@@ -17,7 +17,18 @@ interface Result {
     uri: string;
 }
 
-export const getReleaseDetails = (resourceUrl: string): Promise<void> => {
+export interface Release {
+    id: number;
+    country: string;
+    year: string;
+    uri: string;
+    title: string;
+    num_for_sale: number;
+    lowest_price: number;
+    released: string;
+}
+
+export const getReleaseDetails = (resourceUrl: string): Promise<Release> => {
     const url = new URL(resourceUrl);
     const options = { headers: DISCOGS_HEADERS };
     return new Promise((resolve, reject) => {
