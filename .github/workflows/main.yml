@@ -10,8 +10,11 @@ jobs:
   # lint typescript and enforce style
   lint:
     runs-on: ubuntu-latest
-    
+
     steps:
+      - name: Install dependencies
+        run: yarn install
+        
       - name: Lint source code
         run: yarn lint
 
