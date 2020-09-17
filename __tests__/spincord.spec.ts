@@ -16,5 +16,5 @@ test("gets a URL for king gizzard's gumboot soup", async () => {
 test("price check pink floyd's the dark side of the moon", async () => {
     expect.assertions(2);
     const response = await getStartingPrice('the dark side of the moon');
-    expect(response).toReturn();
+    expect(response).toBeTruthy();
 });
