@@ -1,14 +1,14 @@
+/**
+ * Discogs REST API Interface
+ */
+
 import { request } from 'https';
 import { escape } from 'querystring';
 
 const { SPINCORD_DISCOGS_KEY, SPINCORD_DISCOGS_SECRET } = process.env;
-const DISCOGS_HEADERS = {
-    Authorization: `Discogs key=${SPINCORD_DISCOGS_KEY}, secret=${SPINCORD_DISCOGS_SECRET}`,
-    'Content-Type': 'application/json',
-    'User-Agent': 'SpincordDiscordBot/1.0 +https://github.com/kmrn/spincord',
-};
 
-interface Result {
+export interface Result {
+    id: number;
     country: string;
     year: string;
     title: string;
@@ -28,49 +28,21 @@ export interface Release {
     released: string;
 }
 
-export const getReleaseDetails = (resourceUrl: string): Promise<Release> => {
-    const url = new URL(resourceUrl);
-    const options = { headers: DISCOGS_HEADERS };
-    return new Promise((resolve, reject) => {
-        const responseData: Buffer[] = [];
-        const req = request(url, options, (res) => {
-            res.on('data', (chunk) => {
-                responseData.push(chunk);
-            });
+export interface MarketplaceStats {
+    num_for_sale: number;
+    lowest_price: number;
+}
 
-            res.on('end', () => {
-                const buffer = responseData.join('');
-                const listing = JSON.parse(buffer);
-                resolve(listing);
-            });
-
-            res.on('error', (error: Error) => {
-                reject(error);
-            });
-        });
-
-        req.on('error', (error: Error) => {
-            reject(error);
-        });
-
-        req.end();
-    });
-};
-
-export const findAlbum = async (album: string): Promise<Result> => {
-    const results = await searchDiscogs(album);
-    const [firstResult] = results;
-    return firstResult;
-};
-
-export const searchDiscogs = (query: string): Promise<Result[]> => {
-    const escapedQuery = escape(query);
+export const queryDiscogs = (path: string): Promise<string> => {
     const options = {
         hostname: 'api.discogs.com',
-        path: `/database/search?q=${escapedQuery}&type=release&page=1&per_page=3`,
-        headers: DISCOGS_HEADERS,
+        path,
+        headers: {
+            Authorization: `Discogs key=${SPINCORD_DISCOGS_KEY}, secret=${SPINCORD_DISCOGS_SECRET}`,
+            'Content-Type': 'application/json',
+            'User-Agent': 'SpincordDiscordBot/1.0 +https://github.com/kmrn/spincord',
+        },
     };
-
     return new Promise((resolve, reject) => {
         const responseData: Buffer[] = [];
         const req = request(options, (res) => {
@@ -80,8 +52,7 @@ export const searchDiscogs = (query: string): Promise<Result[]> => {
 
             res.on('end', () => {
                 const buffer = responseData.join('');
-                const { results } = JSON.parse(buffer);
-                resolve(results);
+                resolve(buffer);
             });
 
             res.on('error', (error: Error) => {
@@ -96,4 +67,29 @@ export const searchDiscogs = (query: string): Promise<Result[]> => {
 
         req.end();
     });
+};
+
+export const searchDiscogs = async (query: string): Promise<Result[]> => {
+    const escapedQuery = escape(query);
+    const response = await queryDiscogs(`/database/search?q=${escapedQuery}&type=release&page=1&per_page=3`);
+    const { results } = JSON.parse(response);
+    return results;
+};
+
+export const getReleaseDetails = async (releaseId: number): Promise<Release> => {
+    const response = await queryDiscogs(`/release/${releaseId}`);
+    const release: Release = JSON.parse(response);
+    return release;
+};
+
+export const getMarketplaceStats = async (releaseId: number): Promise<MarketplaceStats> => {
+    const response = await queryDiscogs(`/marketplace/stats/${releaseId}`);
+    const stats: MarketplaceStats = JSON.parse(response);
+    return stats;
+};
+
+export const getFirstAlbumResult = async (album: string): Promise<Result> => {
+    const results = await searchDiscogs(album);
+    const [firstResult] = results;
+    return firstResult;
 };
