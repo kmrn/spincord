@@ -1,0 +1,83 @@
+name: Post release to Jekyll Blog
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install jq
+        run: sudo apt-get install jq
+
+      - name: Get release info and set variables
+        run: |
+          gh_release=$(curl -s 'https://api.github.com/repos/EndBug/add-and-commit/releases/latest')
+          release_name=$($gh_release | jq '.name')
+          release_body=$($gh_release | jq '.body')
+          release_date=$($gh_release | jq '.published_at')
+          release_url=$($gh_release | jq '.url')
+
+      - name: Create blog post
+        run: |
+          echo '---\n' \
+            'layout:post\n' \
+            'title: '$release_name'\n' \
+            'date: '$release_date'\n' \
+            'author: spincord-ci\n' \
+            'categories: release\n' \
+            '---\n\n' \
+            $release_body'\n\n' \
+            '[View this release on GitHub]('$release_url')\n' \
+            > _posts/$(date +%F)-release.markdown
+
+      - name: Add and commit
+        uses: EndBug/add-and-commit@v4.4.0
+        with:
+          # The arguments for the `git add` command (see the paragraph below for more info)
+          # Default: '.'
+          add: '_posts'
+
+          # The name of the user that will be displayed as the author of the commit
+          # Default: author of the commit that triggered the run
+          author_name: GitHub Actions
+
+          # The email of the user that will be displayed as the author of the commit
+          # Default: author of the commit that triggered the run
+          author_email: actions@github.com
+
+          # The local path to the directory where your repository is located. You should use actions/checkout first to set it up
+          # Default: '.'
+          cwd: './path/to/the/repo'
+
+          # Whether to use the --force option on `git add`, in order to bypass eventual gitignores
+          # Default: false
+          # force: true
+
+          # Whether to use the --signoff option on `git commit`
+          # Default: false
+          # signoff: true
+
+          # The message for the commit
+          # Default: 'Commit from GitHub Actions'
+          message: 'post release info to blog'
+
+          # Name of the branch to use, if different from the one that triggered the workflow
+          # Default: the branch that triggered the workflow (from GITHUB_REF)
+          ref: 'gh-pages'
+
+          # The arguments for the `git rm` command (see the paragraph below for more info)
+          # Default: ''
+          # remove: "./dir/old_file.js"
+
+          # Name of the tag to add to the new commit (see the paragraph below for more info)
+          # Default: ''
+          # tag: "v1.0.0"
+
+        env:
+          # This is necessary in order to push a commit to the repo
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
