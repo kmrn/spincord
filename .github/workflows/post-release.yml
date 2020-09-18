@@ -13,11 +13,9 @@ jobs:
         with:
           ref: 'gh-pages'
 
-      - name: Get release info and set variables
-        run: read release_name release_date release_url release_body < <(echo $(curl -s 'https://api.github.com/repos/kmrn/spincord/releases/latest' | jq -r '.tag_name, .published_at, .url, .body'))
-
       - name: Create blog post
         run: |
+          read release_name release_date release_url release_body < <(echo $(curl -s 'https://api.github.com/repos/kmrn/spincord/releases/latest' | jq -r '.tag_name, .published_at, .url, .body'))
           cat << EOF > ./_posts/$(date +%F)-release-$release_name.markdown
           ---
           layout: post
