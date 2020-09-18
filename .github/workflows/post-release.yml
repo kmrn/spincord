@@ -15,11 +15,12 @@ jobs:
 
       - name: Create blog post
         run: |
-          read release_date release_url release_body < <(echo $(curl -s -H "Accept: application/vnd.github.v3+json" 'https://api.github.com/repos/kmrn/spincord/releases/tags/$GITHUB_REF' | jq -r '.published_at, .url, .body'))
-          cat << EOF > ./_posts/$(date +%F)-release-$GITHUB_REF.markdown
+          echo $GITHUB_REF
+          read release_name release_date release_url release_body < <(echo $(curl -s -H "Accept: application/vnd.github.v3+json" 'https://api.github.com/repos/kmrn/spincord/releases/latest' | jq -r '.tag_name, .published_at, .url, .body'))
+          cat << EOF > ./_posts/$(date +%F)-release-$release_name.markdown
           ---
           layout: post
-          title: Release $GITHUB_REF
+          title: Release $release_name
           date: $release_date
           author: actions-user
           categories: release
