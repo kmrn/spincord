@@ -4,7 +4,7 @@ layout: default
 ---
 
 <div class="hero-cta-container text-center px-2">
-    <h2 class="hero-text font-weight-bolder">a discord bot for music fans</h2>
+    <h2 class="hero-text font-weight-bolder">the discord bot for music fans</h2>
 </div>
 <div class="hero-container text">
     <div class="record">
@@ -21,12 +21,12 @@ layout: default
 </div>
 <div class="front-page-info-container">
     <div class="hero-cta-container">
-        <a class="hero-button btn btn-lg btn-primary" href="{{ site.discord_invite }}">Add Spincord to your server</a>
+        <a class="hero-button btn btn-lg btn-primary" href="{{ site.discord_invite_url }}">Add Spincord to Your Server</a>
     </div>
     <div class="container">
-        <div class="row my-5">
-            <div class="col-lg">
-                <img class="my-3 screenshot" src="assets/img/albumart.png" alt="album art example screenshot" />
+        <div class="d-flex flex-md-row flex-wrap align-items-center my-5">
+            <div class="col-md">
+                <img class="my-3 screenshot" src="{{ site.baseurl }}/assets/img/albumart.png" alt="album art example screenshot" />
             </div>
             <div class="col-md">
                 <div class="screenshot-info my-4 mx-2">
@@ -36,27 +36,29 @@ layout: default
                         of clumsily describing it through the medium of text. Never mess with image searching
                         an album cover ever again.
                     </p>
+                    <a href="{{ site.baseurl }}/about">Learn more &rarr;</a>
                 </div>
             </div>
         </div>
         <hr>
-        <div class="row my-5">
+        <div class="d-flex flex-md-row flex-wrap align-items-center my-5">
             <div class="col-md">
                 <div class="screenshot-info text-right my-4 mx-2">
                     <h2 class="font-weight-lighter font-italic">Release links</h2>
                     <p>
                         Just ask and quickly get linked to any album's Discogs release page to get more info.
                     </p>
+                    <a href="{{ site.baseurl }}/about">Learn more &rarr;</a>
                 </div>
             </div>
-            <div class="col-lg visible-md">
-                <img class="my-3 screenshot" src="assets/img/albuminfo.png" alt="album details example screenshot" />
+            <div class="col-md">
+                <img class="my-3 screenshot" src="{{ site.baseurl }}/assets/img/albuminfo.png" alt="album details example screenshot" />
             </div>
         </div>
         <hr>
-        <div class="row my-5">
-            <div class="col-lg">
-                <img class="my-3 screenshot" src="assets/img/pricecheck.png" alt="pricecheck screenshot" />
+        <div class="d-flex flex-md-row flex-wrap align-items-center my-5">
+            <div class="col-md">
+                <img class="my-3 screenshot" src="{{ site.baseurl }}/assets/img/pricecheck.png" alt="pricecheck screenshot" />
             </div>
             <div class="col-md">
                 <div class="screenshot-info my-4 mx-2">
@@ -67,6 +69,7 @@ layout: default
                         of just how valuable that grail you and your friends are 
                         chatting about really is.
                     </p>
+                    <a href="{{ site.baseurl }}/about">Learn more &rarr;</a>
                 </div>
             </div>
         </div>
@@ -74,7 +77,7 @@ layout: default
         <div class="row">
             <div class="col text-center p-4">
                 <h2 class="font-weight-lighter font-italic">And so much more!</h2>
-                <a class="btn btn-lg btn-primary m-3" href="{{ site.discord_invite }}">Add Spincord to your server</a>
+                <a class="btn btn-lg btn-primary m-3" href="{{ site.discord_invite_url }}">Add Spincord to your server</a>
                 <p>Then run <code>!spincord</code> for a list of commands.</p>
             </div>
         </div>
