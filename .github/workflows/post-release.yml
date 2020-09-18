@@ -15,11 +15,11 @@ jobs:
 
       - name: Create blog post
         run: |
-          read release_name release_date release_url release_body < <(echo $(curl -s 'https://api.github.com/repos/kmrn/spincord/releases/latest' | jq -r '.tag_name, .published_at, .url, .body'))
-          cat << EOF > ./_posts/$(date +%F)-release-$release_name.markdown
+          read release_date release_url release_body < <(echo $(curl -s -H "Accept: application/vnd.github.v3+json" 'https://api.github.com/repos/kmrn/spincord/releases/tags/$GITHUB_REF' | jq -r '.published_at, .url, .body'))
+          cat << EOF > ./_posts/$(date +%F)-release-$GITHUB_REF.markdown
           ---
           layout: post
-          title: Release $release_name
+          title: Release $GITHUB_REF
           date: $release_date
           author: actions-user
           categories: release
@@ -36,7 +36,7 @@ jobs:
         with:
           # The arguments for the `git add` command (see the paragraph below for more info)
           # Default: '.'
-          add: '_posts'
+          # add: '_posts'
 
           # The name of the user that will be displayed as the author of the commit
           # Default: author of the commit that triggered the run
