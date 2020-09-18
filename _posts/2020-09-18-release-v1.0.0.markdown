@@ -1,0 +1,12 @@
+---
+layout: post
+title: Release v1.0.0
+date: 2020-09-18T23:07:16Z
+author: spincord-ci
+categories: release
+---
+
+First version! This first iteration of Spincord is able to get album art, link to Discogs releases, and price check albums on the Discogs marketplace. Here's exactly what you're getting with v1.0.0:  - `!album [album name]` where [album name] is just your best guess at an album name, has Spincord post a Discogs link to the most relevant release it can find - `!albumart [album name]` posts the album art most closely related to what you typed in for [album name] - `!pricecheck [album name]` will find the lowest price that album is currenlty going for on the Discogs Marketplace (plus a link) - `!spincord` gets the most up-to-date list of Spincord bot commands  More commands and features are still being worked on. If there's something specific you'd like to see please [submit a feature request](https://github.com/kmrn/spincord/issues/new?labels=enhancement&title=New+feature+request). You can also take matters into your own hands and [become a contributor](https://github.com/kmrn/spincord)!  This release is also mostly to test spincord-ci's automated blogging feature. It's supposed to take tagged GitHub releases and post them straight to the Spincord blog so that all news can easily be found in one place. [Check out the yml script here if you're into that sort of thing.](https://github.com/kmrn/spincord/blob/master/.github/workflows/post-release.yml)
+
+[View this release on GitHub](https://api.github.com/repos/kmrn/spincord/releases/31540114)
+
