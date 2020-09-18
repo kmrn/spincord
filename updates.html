@@ -5,7 +5,7 @@ layout: page
 
 <div class="px-5">
     {% for post in site.posts %}
-        <a class="btn btn-light btn-block shadow border text-left pt-2 px-5 pb-4" href="{{ post.url }}">
+        <a class="btn btn-light btn-block shadow border text-left pt-2 px-5 pb-4" href="{{ site.baseurl }}{{ post.url }}">
             <h2 class="font-weight-bold">{{ post.title }}</h2>
             <h6>{{ post.date }}</h6>
             <hr>
