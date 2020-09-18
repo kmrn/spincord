@@ -7,7 +7,7 @@ layout: page
     {% for post in site.posts %}
         <a class="btn btn-light btn-block shadow border text-left pt-2 mb-5 px-5 pb-4" href="{{ site.baseurl }}{{ post.url }}">
             <h2 class="font-weight-bold">{{ post.title }}</h2>
-            <h6>{{ post.date | date: '%B %d, %Y'}}</h6>
+            <h6>{{ post.date | date: '%B %d, %Y' }}</h6>
             <hr>
             <p>{{ post.excerpt | strip_html | normalize_whitespace | truncate: 200 | escape }}</p>
             <hr>
