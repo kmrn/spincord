@@ -38,9 +38,12 @@ export interface Release {
  * Discogs marketplace data object
  */
 export interface MarketplaceStats {
-    title: string;
+    blocked_from_sale: boolean;
     num_for_sale: number;
-    lowest_price: number;
+    lowest_price: {
+        value: number;
+        currency: string;
+    };
 }
 
 /**

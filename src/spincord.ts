@@ -10,21 +10,27 @@ import { getFirstAlbumResult, getMarketplaceStats } from './discogs';
  * @param query album name/discogs query string
  */
 export const getStartingPrice = async (query: string): Promise<string> => {
-    const { id } = await getFirstAlbumResult(query);
-    const release = await getMarketplaceStats(id);
-    const { title, num_for_sale, lowest_price } = release;
+    const { id, title } = await getFirstAlbumResult(query);
+    const marketStats = await getMarketplaceStats(id);
+    console.log(marketStats);
+    const { blocked_from_sale, num_for_sale, lowest_price } = marketStats;
+    const { value, currency } = lowest_price;
     const marketplaceUrl = `https://www.discogs.com/sell/release/${id.toString()}`;
-    const startingPrice = lowest_price.toFixed(2);
+    const price = // this should get replaced with something that actually returns the right currency mark
+        (currency === 'USD' ? '$' : '') + value.toFixed(2).toString() + (currency !== 'USD' ? ` (${currency})` : '');
+    if (blocked_from_sale) {
+        return `Oh man... that release actually looks like it's *banned from sale* on Discogs.\n\n${marketplaceUrl}`;
+    }
     if (num_for_sale < 1) {
         return `Sorry but it looks like you're the only one trying to sell one of those right now.\n\n${marketplaceUrl}`;
     }
-    if (lowest_price > 500) {
-        return `WOAH! *Certified RARE grail.* There's currently ${num_for_sale} of those listed for sale starting at ***$${startingPrice}***!! :money_with_wings:\n\n${marketplaceUrl}`;
+    if (value > 500) {
+        return `WOAH! *Certified RARE grail.* There's currently ${num_for_sale} of those listed for sale starting at ***${price}***!! :money_with_wings:\n\n${marketplaceUrl}`;
     }
-    if (lowest_price > 100) {
-        return `Wow! Must be pretty rare. ${num_for_sale} of those are listed for sale right now starting at **$${startingPrice}**.\n\n${marketplaceUrl}`;
+    if (value > 100) {
+        return `Wow! Must be pretty rare. ${num_for_sale} of those are listed for sale right now starting at **${price}**.\n\n${marketplaceUrl}`;
     }
-    return `There are ${num_for_sale} listings for ${title} starting at $${startingPrice}.\n\n${marketplaceUrl}`;
+    return `There are ${num_for_sale} listings for *${title}* starting at ${price}.\n\n${marketplaceUrl}`;
 };
 
 /**
