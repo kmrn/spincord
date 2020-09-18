@@ -11,7 +11,7 @@ const prefix = '!';
 const client = new Client();
 
 client.on('ready', () => {
-    console.log('spincord is now ready for grailz');
+    console.log('Spincord is now listening for commands...');
 });
 
 client.on('message', async (message: Message) => {
@@ -30,4 +30,7 @@ client.on('message', async (message: Message) => {
     }
 });
 
-client.login(process.env.SPINCORD_BOT_TOKEN);
+client
+    .login(process.env.SPINCORD_BOT_TOKEN)
+    .then(() => console.log('Successfully authenticated bot account.'))
+    .catch((error) => console.error(error));
