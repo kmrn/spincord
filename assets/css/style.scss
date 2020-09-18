@@ -1,0 +1,128 @@
+---
+---
+
+.navbar {
+    z-index: 5;
+    padding: 20px;
+    box-shadow: 0 5px 4px -4px #0007;
+
+    .record-icon {
+        margin-right: 5px;
+    }
+
+    .links a {
+        padding: 5px;
+    }
+}
+
+.hero-container {
+    z-index: 5;
+    background-color: #fafafa;
+    margin-top: -90px;
+    height: 500px;
+    overflow: hidden;
+}
+
+.hero-cta-container {
+    display: flex;
+    justify-content: center;
+    .hero-button {
+        position: absolute;
+        margin-top: -90px;
+    }
+    .hero-text {
+        z-index: 6;
+        position: absolute;
+        margin-top: 110px;
+        color: white;
+        text-shadow: 2px 2px #000f;
+    }
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+.record {
+    position: relative;
+    animation: rotation 10s infinite linear;
+    left: 0;
+    right: 0;
+    margin: -40px auto;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: 
+        linear-gradient(30deg, transparent 40%, rgba(42, 41, 40, 0) 40%) no-repeat 100% 0,
+        linear-gradient(60deg, rgba(255, 255, 255, 0) 60%, transparent 60%) no-repeat 0 100%,
+        repeating-radial-gradient(#111, #111 4px, #555 5px, #555 6px);
+    background-size: 50% 100%, 100% 50%, 100% 100%;
+    box-shadow: 0 0 20px #000c;
+
+    &::after {
+        position: absolute;
+        top: calc(50% - 106px); 
+        left: calc(50% - 106px);
+        border: solid 1px #e1e1e1;
+        width: 210px;
+        height: 210px;
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px rgb(230, 200, 12),
+            inset 0 0 0 95px rgb(230, 200, 12),
+            inset 0 0 0 97px #444;
+        background: #eee;
+        content: '';
+    }
+
+    .record-label {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        top: 232px;
+        color: #333;
+
+        .label-company {
+            font-style: italic;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            line-height: 20px;
+            font-size: 20px;
+        }
+        .label-details {
+            display: 'inline';
+            margin-left: 10px;
+            line-height: 12px;
+            font-size: 12px;
+            margin-top: 22px;
+            span {
+                margin: 0 30px;
+            }
+        }
+        .label-title {
+            color: #000;
+            margin-top: 20px;
+            margin-bottom: 0;
+            font-size: 36px;
+            line-height: 28px;
+        }
+        .label-artist {
+            font-size: 24px;
+        }
+    }
+}
+
+.front-page-info-container {
+    z-index: 5;
+    box-shadow: 0 -5px 4px -4px #0007;
+    padding: 15px;
+}
+
+.screenshot {
+    box-shadow: 1px 3px 5px #0009;
+    border-radius: 10px;
+    max-width: 100%;
+}
