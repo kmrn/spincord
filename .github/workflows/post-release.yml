@@ -14,20 +14,25 @@ jobs:
           ref: 'gh-pages'
 
       - name: Get release info and set variables
-        run: read release_name release_date release_body release_url < <(echo $(curl -s 'https://api.github.com/repos/kmrn/spincord/releases/latest' | jq -r '.name, .published_at, .body, .url'))
+        run: read release_name release_date release_url release_body < \
+          <(echo $(curl -s 'https://api.github.com/repos/kmrn/spincord/releases/latest' | jq -r '.tag_name, .published_at, .url, .body'))
 
       - name: Create blog post
         run: |
-          echo '---\n' \
-            'layout:post\n' \
-            'title: '$release_name'\n' \
-            'date: '$release_date'\n' \
-            'author: spincord-ci\n' \
-            'categories: release\n' \
-            '---\n\n' \
-            $release_body'\n\n' \
-            '[View this release on GitHub]('$release_url')\n' \
-            > ./_posts/$(date +%F)-release.markdown
+          cat << EOF > ./_posts/$(date +%F)-release-$release_name.markdown
+          ---
+          layout: post
+          title: Release $release_name
+          date: $release_date
+          author: actions-user
+          categories: release
+          ---
+
+          $release_body
+
+          [View this release on GitHub]($release_url)
+          
+          EOF
 
       - name: Add and commit
         uses: EndBug/add-and-commit@v4.4.0
