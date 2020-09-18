@@ -1,3 +1,20 @@
 ---
 layout: default
 ---
+
+<div class="page container px-5">
+    <div class="row p-4 mb-5">
+        <div class="col px-5">
+            <hr>
+            <h1 class="mt-4 font-weight-bolder">{{ page.title }}</h1>
+            <h6 class="pb-2">{{ page.date }}</h6>
+            <div class="d-inline-flex align-items-center">
+                <p class="m-0 pr-2">Written by:</p>
+                <img class="rounded-circle shadow" src="https://github.com/{{ page.author }}.png?size=40" />
+                <a class="m-0 px-2" href="https://github.com/{{ page.author }}">{{ page.author }}</a>
+            </div>
+            <hr class="my-4">
+            {{ content }}
+        </div>
+    </div>
+</div>

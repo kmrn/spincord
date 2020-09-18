@@ -3,10 +3,19 @@ title: Updates
 layout: page
 ---
 
-<ul>
+<div class="px-5">
     {% for post in site.posts %}
-        <li>
-            <a href="{{ post.url }}">{{ post.title }}</a>
-        </li>
+        <a class="btn btn-light btn-block shadow border text-left pt-2 px-5 pb-4" href="{{ post.url }}">
+            <h2 class="font-weight-bold">{{ post.title }}</h2>
+            <h6>{{ post.date }}</h6>
+            <hr>
+            <p>{{ post.excerpt }}</p>
+            <hr>
+            <div class="d-inline-flex align-items-center">
+                <p class="m-0 pr-2">Posted by:</p>
+                <img class="rounded-circle shadow" src="https://github.com/{{ post.author }}.png?size=40" />
+                <p class="m-0 px-2">{{ post.author }}</p>
+            </div>
+        </a>
     {% endfor %}
 </ul>
