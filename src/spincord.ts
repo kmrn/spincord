@@ -12,7 +12,6 @@ import { getFirstAlbumResult, getMarketplaceStats } from './discogs';
 export const getStartingPrice = async (query: string): Promise<string> => {
     const { id, title } = await getFirstAlbumResult(query);
     const marketStats = await getMarketplaceStats(id);
-    console.log(marketStats);
     const { blocked_from_sale, num_for_sale, lowest_price } = marketStats;
     const { value, currency } = lowest_price;
     const marketplaceUrl = `https://www.discogs.com/sell/release/${id.toString()}`;
