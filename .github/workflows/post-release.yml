@@ -9,18 +9,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout gh-pages
       - uses: actions/checkout@v2
+        with:
+          ref: 'gh-pages'
       
-      - name: Install jq
-        run: sudo apt-get install jq
+      # - name: Install jq
+      #   run: sudo apt-get install jq
 
       - name: Get release info and set variables
-        run: |
-          gh_release=$(curl -s 'https://api.github.com/repos/EndBug/add-and-commit/releases/latest')
-          release_name=$($gh_release | jq '.name')
-          release_body=$($gh_release | jq '.body')
-          release_date=$($gh_release | jq '.published_at')
-          release_url=$($gh_release | jq '.url')
+        run: read release_name release_date release_body release_url < <(echo $(curl -s 'https://api.github.com/repos/kmrn/spincord/releases/latest' | jq -r '.name, .published_at, .body, .url'))
 
       - name: Create blog post
         run: |
@@ -33,7 +31,7 @@ jobs:
             '---\n\n' \
             $release_body'\n\n' \
             '[View this release on GitHub]('$release_url')\n' \
-            > _posts/$(date +%F)-release.markdown
+            > ./_posts/$(date +%F)-release.markdown
 
       - name: Add and commit
         uses: EndBug/add-and-commit@v4.4.0
@@ -52,7 +50,7 @@ jobs:
 
           # The local path to the directory where your repository is located. You should use actions/checkout first to set it up
           # Default: '.'
-          cwd: './path/to/the/repo'
+          # cwd: './path/to/the/repo'
 
           # Whether to use the --force option on `git add`, in order to bypass eventual gitignores
           # Default: false
