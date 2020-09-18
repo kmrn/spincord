@@ -17,7 +17,8 @@
 
 .hero-container {
     z-index: 5;
-    background-color: #fafafa;
+    background-color: #0CC8E6;
+    // background-color: #0CE6C8;
     margin-top: -90px;
     height: 500px;
     overflow: hidden;
@@ -74,7 +75,7 @@
         box-shadow: 0 0 0 4px rgb(230, 200, 12),
             inset 0 0 0 95px rgb(230, 200, 12),
             inset 0 0 0 97px #444;
-        background: #eee;
+        background: #0bb4ce;
         content: '';
     }
 
