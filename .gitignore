@@ -2,3 +2,4 @@ node_modules
 .jekyll-cache
 _site
 .DS_Store
+dist
