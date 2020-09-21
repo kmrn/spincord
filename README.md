@@ -1,6 +1,6 @@
- # <img src="https://kamranpayne.com/spincord/assets/img/record-transparent.png" alt="record" width="40" style="margin-bottom: -10px;" /> Spincord
+# <img src="https://kamranpayne.com/spincord/assets/img/record-transparent.png" alt="record" width="40" style="margin-bottom: -10px;" /> Spincord
 
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs) [![GitHub Release](https://img.shields.io/github/release/kmrn/spincord.svg?style=flat)]() [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/tterb/hyde/blob/master/docs/CODE_OF_CONDUCT.md) 
+![Spincord CI/CD](https://github.com/kmrn/spincord/workflows/Spincord%20CI/CD/badge.svg) [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs) [![GitHub Release](https://img.shields.io/github/release/kmrn/spincord.svg?style=flat)]() [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat)](https://github.com/tterb/hyde/blob/master/docs/CODE_OF_CONDUCT.md) 
 
 A Discord bot for music nerds that helps you easily get info about any album or artist on Discogs in any Discord server. More info at https://kamranpayne.com/spincord.
 
