@@ -1,10 +1,6 @@
 name: Spincord CI
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [ pull_request ]
 
 jobs:
   # lint typescript and enforce style

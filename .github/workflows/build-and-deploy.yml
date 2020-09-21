@@ -6,8 +6,51 @@ on:
       - master
 
 jobs:
-  deploy:
+  # lint typescript and enforce style
+  lint:
+    runs-on: ubuntu-latest
 
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Lint source code
+        run: yarn lint
+
+  # run all unit tests
+  test:
+    runs-on: ubuntu-latest
+    env:
+      SPINCORD_DISCOGS_KEY: ${{ secrets.SPINCORD_DISCOGS_KEY }}
+      SPINCORD_DISCOGS_SECRET: ${{ secrets.SPINCORD_DISCOGS_SECRET }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run unit tests
+        run: yarn test
+
+  # check if typescript source compiles successfully without errors
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build
+        run: yarn build
+
+  # Deploy spincord to digital ocean droplet
+  deploy:
+    needs: [lint, test, build]
     runs-on: ubuntu-latest
 
     steps:
@@ -37,17 +80,12 @@ jobs:
         TARGET: ${{ secrets.REMOTE_TARGET }}
         
     - name: Set up and restart production server
-      uses: JimCronqvist/action-ssh@0.1.1
-      env:
-        DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-        SPINCORD_DISCOGS_KEY: ${{ secrets.SPINCORD_DISCOGS_KEY }}
-        SPINCORD_DISCOGS_SECRET: ${{ secrets.SPINCORD_DISCOGS_SECRET }}
+      uses: garygrossgarten/github-action-ssh@release
       with:
-        hosts: '${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}'
-        privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
-        debug: false
         command: pm2 restart spincord/app.js || pm2 start spincord/app.js
-
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: update deployment status
       uses: bobheadxi/deployments@master
