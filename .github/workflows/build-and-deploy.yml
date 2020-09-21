@@ -1,0 +1,55 @@
+name: Build and Deploy
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Start deployment
+      uses: bobheadxi/deployments@master
+      id: deployment
+      with:
+        step: start
+        token: ${{ secrets.GITHUB_TOKEN }}
+        env: release
+
+    - name: Install dependencies and compile
+      run: |
+        export NODE_ENV=production
+        yarn install
+        yarn build
+    
+    - name: SSH deploy
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SOURCE: "./"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+        
+    - name: Restart production server
+      uses: garygrossgarten/github-action-ssh@release
+      with:
+        command: yarn install; yarn build; pm2 restart spincord
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        # passphrase: ${{ secrets.PASSPHRASE }}
+        privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: update deployment status
+      uses: bobheadxi/deployments@master
+      if: always()
+      with:
+        step: finish
+        token: ${{ secrets.GITHUB_TOKEN }}
+        status: ${{ job.status }}
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
