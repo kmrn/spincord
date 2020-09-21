@@ -1,4 +1,4 @@
-name: Post release to Jekyll Blog
+name: Post release update
 
 on:
   release:
