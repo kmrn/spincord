@@ -12,6 +12,7 @@
   "scripts": {
     "start": "tsc && node dist/app.js",
     "build": "tsc",
+    "postbuild": "cp package.json dist/package.json && cd dist && yarn install --production",
     "dev": "ts-node-dev src/app.ts",
     "lint": "eslint . --ext .ts",
     "test": "jest"
