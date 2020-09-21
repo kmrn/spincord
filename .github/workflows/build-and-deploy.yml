@@ -37,21 +37,16 @@ jobs:
         TARGET: ${{ secrets.REMOTE_TARGET }}
         
     - name: Set up and restart production server
-      uses: garygrossgarten/github-action-ssh@release
-      with:
-        command: |
-          export NODE_ENV=production
-          export DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }}
-          export SPINCORD_DISCOGS_KEY=${{ secrets.SPINCORD_DISCOGS_KEY }}
-          export SPINCORD_DISCOGS_SECRET=${{ secrets.SPINCORD_DISCOGS_SECRET }}
-          pm2 restart spincord/app.js || pm2 start spincord/app.js
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+      uses: JimCronqvist/action-ssh@0.1.1
       env:
         DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
         SPINCORD_DISCOGS_KEY: ${{ secrets.SPINCORD_DISCOGS_KEY }}
         SPINCORD_DISCOGS_SECRET: ${{ secrets.SPINCORD_DISCOGS_SECRET }}
+      with:
+        hosts: '${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}'
+        privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+        debug: false
+        command: pm2 restart spincord/app.js || pm2 start spincord/app.js
 
 
     - name: update deployment status
