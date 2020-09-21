@@ -44,12 +44,9 @@ jobs:
           export DISCORD_BOT_TOKEN=${{ secrets.DISCORD_BOT_TOKEN }}
           export SPINCORD_DISCOGS_KEY=${{ secrets.SPINCORD_DISCOGS_KEY }}
           export SPINCORD_DISCOGS_SECRET=${{ secrets.SPINCORD_DISCOGS_SECRET }}
-          cd spincord
-          yarn install
-          pm2 kill && pm2 start dist/app.js
+          pm2 restart spincord/app.js || pm2 start spincord/app.js
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
-        # passphrase: ${{ secrets.PASSPHRASE }}
         privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
       env:
         DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
