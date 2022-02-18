@@ -1,0 +1,12 @@
+---
+layout: post
+title: Release v1.1.0
+date: 2022-02-18T23:55:27Z
+author: spincord-ci
+categories: release
+---
+
+The artists update! You can now get artist info in discord.  404.html Gemfile Gemfile.lock README.md _config.yml _layouts _posts about.markdown assets blog.html favicon.ico index.html `!artisturl [artist name]` where [artist name] is the name of a super cool (or lame) musician 404.html Gemfile Gemfile.lock README.md _config.yml _layouts _posts about.markdown assets blog.html favicon.ico index.html `!albumart [album name]` posts the cover image most closely related to what you typed in for [artist name]  ## What's Changed 404.html Gemfile Gemfile.lock README.md _config.yml _layouts _posts about.markdown assets blog.html favicon.ico index.html Update issue templates by @kmrn in https://github.com/kmrn/spincord/pull/6 404.html Gemfile Gemfile.lock README.md _config.yml _layouts _posts about.markdown assets blog.html favicon.ico index.html Feature/community docs by @kmrn in https://github.com/kmrn/spincord/pull/7 404.html Gemfile Gemfile.lock README.md _config.yml _layouts _posts about.markdown assets blog.html favicon.ico index.html Refactor spincord and discogs files and add artist info by @kmrn in https://github.com/kmrn/spincord/pull/15   **Full Changelog**: https://github.com/kmrn/spincord/compare/v1.0.0...v1.1.0
+
+[View this release on GitHub](https://api.github.com/repos/kmrn/spincord/releases/59947575)
+
