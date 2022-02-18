@@ -12,8 +12,12 @@ export const discogsRootUrl = 'https://discogs.com';
  */
 export interface Result {
     id: number;
-    country: string;
-    year: string;
+    type: string;
+    master_id?: number | null;
+    master_url?: string | null;
+    thumb: string;
+    country?: string;
+    year?: string;
     title: string;
     cover_image: string;
     resource_url: string;

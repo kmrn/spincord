@@ -13,7 +13,7 @@ class Spincord {
      * Takes a query string and returns a string containing pricing info.
      * @param query album name/discogs query string
      */
-    private async getStartingPrice(query: string): Promise<string> {
+    async getStartingPrice(query: string): Promise<string> {
         const { id, title } = await discogs.getFirstAlbumResult(query);
         const marketStats = await discogs.getMarketplaceStats(id);
         const { blocked_from_sale, num_for_sale, lowest_price } = marketStats;
@@ -42,7 +42,7 @@ class Spincord {
      * Takes a query string and returns the closest matched album art.
      * @param query album name/discogs query string
      */
-    private async getAlbumArt(query: string): Promise<MessageAttachment> {
+    async getAlbumArt(query: string): Promise<MessageAttachment> {
         const { cover_image } = await discogs.getFirstAlbumResult(query);
         const attachment = new MessageAttachment(cover_image);
         return attachment;
@@ -52,13 +52,13 @@ class Spincord {
      * Takes a query string and returns a discogs URL with more info.
      * @param query album name query string
      */
-    private async getAlbumInfo(query: string): Promise<string> {
+    async getAlbumInfo(query: string): Promise<string> {
         const { uri } = await discogs.getFirstAlbumResult(query);
         const message = discogsRootUrl + uri;
         return message;
     }
 
-    private async getArtistImage(query: string): Promise<MessageAttachment> {
+    async getArtistImage(query: string): Promise<MessageAttachment> {
         const { cover_image } = await discogs.getFirstArtistResult(query);
         const attachment = new MessageAttachment(cover_image);
         return attachment;
@@ -68,7 +68,7 @@ class Spincord {
      * Takes a query string and returns a discogs URL with more info.
      * @param query artist name query string
      */
-    private async getArtistInfo(query: string): Promise<string> {
+    async getArtistInfo(query: string): Promise<string> {
         const info = await discogs.getFirstArtistResult(query);
         console.log(info);
         const { uri } = info;
@@ -81,7 +81,7 @@ class Spincord {
      * @param command string discord command being issued
      * @param query the argument string following the command
      */
-    public async run(command: string, query: string, message: Message): Promise<void> {
+    async run(command: string, query: string, message: Message): Promise<void> {
         const { channel } = message;
         switch (command) {
             case 'album':
