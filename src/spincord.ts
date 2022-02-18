@@ -58,12 +58,20 @@ class Spincord {
         return message;
     }
 
+    private async getArtistImage(query: string): Promise<MessageAttachment> {
+        const { cover_image } = await discogs.getFirstArtistResult(query);
+        const attachment = new MessageAttachment(cover_image);
+        return attachment;
+    }
+
     /**
      * Takes a query string and returns a discogs URL with more info.
      * @param query artist name query string
      */
     private async getArtistInfo(query: string): Promise<string> {
-        const { uri } = await discogs.getFirstArtistResult(query);
+        const info = await discogs.getFirstArtistResult(query);
+        console.log(info);
+        const { uri } = info;
         const message = discogsRootUrl + uri;
         return message;
     }
@@ -82,8 +90,14 @@ class Spincord {
             case 'albumart':
                 channel.send(await this.getAlbumArt(query));
                 break;
-            case 'aritst':
+            case 'artisturl':
+            case 'artistinfo':
                 channel.send(await this.getArtistInfo(query));
+                break;
+            case 'artistimage':
+            case 'artistart':
+            case 'artistpic':
+                channel.send(await this.getArtistImage(query));
                 break;
             case 'pricecheck':
                 channel.send(await this.getStartingPrice(query));
