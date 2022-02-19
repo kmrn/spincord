@@ -19,8 +19,7 @@ const mockArtistResult: Result = {
     master_url: null,
     uri: '/artist/6394903-Jack-Stauber',
     title: 'Jack Stauber',
-    thumb:
-        'https://i.discogs.com/BNa4X1ZQHr4C9tG0lcmJVfuurVR2ZG8idABgON8fq_4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWltYWdlcy9BLTYz/OTQ5MDMtMTYxOTgy/OTA2NC0xNzI0Lmpw/ZWc.jpeg',
+    thumb: 'https://i.discogs.com/BNa4X1ZQHr4C9tG0lcmJVfuurVR2ZG8idABgON8fq_4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWltYWdlcy9BLTYz/OTQ5MDMtMTYxOTgy/OTA2NC0xNzI0Lmpw/ZWc.jpeg',
     cover_image:
         'https://i.discogs.com/GqXaRGy7mm_lRmvzFKdLTV80OhGHXU0XB0idnCir3C0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWltYWdlcy9BLTYz/OTQ5MDMtMTYxOTgy/OTA2NC0xNzI0Lmpw/ZWc.jpeg',
     resource_url: 'https://api.discogs.com/artists/6394903',
@@ -34,8 +33,7 @@ const mockReleaseResult: Result = {
     master_url: 'https://api.discogs.com/masters/567245',
     uri: '/release/1006498-%E5%B1%B1%E4%B8%8B%E9%81%94%E9%83%8E-Spacy',
     title: '山下達郎* - Spacy',
-    thumb:
-        'https://i.discogs.com/iOCloI__juHw6sShBbhetSwo4ZN0HxzaCQJr56E-XSI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWltYWdlcy9SLTEw/MDY0OTgtMTUyNjg0/MjQxOC04NDQ0Lmpw/ZWc.jpeg',
+    thumb: 'https://i.discogs.com/iOCloI__juHw6sShBbhetSwo4ZN0HxzaCQJr56E-XSI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWltYWdlcy9SLTEw/MDY0OTgtMTUyNjg0/MjQxOC04NDQ0Lmpw/ZWc.jpeg',
     cover_image:
         'https://i.discogs.com/MmD1LbNP2kMkdFZ0XNEwxZIz4yip_lsSY6x07aw6nH4/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWltYWdlcy9SLTEw/MDY0OTgtMTUyNjg0/MjQxOC04NDQ0Lmpw/ZWc.jpeg',
     resource_url: 'https://api.discogs.com/releases/1006498',
