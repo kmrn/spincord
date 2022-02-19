@@ -9,6 +9,7 @@ import Spincord from './spincord';
 
 const prefix = '!';
 const client = new Client();
+const spincord = new Spincord();
 
 client.on('ready', () => {
     console.log('Spincord is now listening for commands...');
@@ -24,9 +25,9 @@ client.on('message', async (message: Message) => {
     const args = content.slice(commandString.length + 1);
 
     try {
-        await Spincord(message, command, args);
+        await spincord.run(command, args, message);
     } catch (error) {
-        message.reply(`Ran into some trouble finding that one.\n\`\`\`${error}\`\`\``);
+        message.reply(`Ran into some trouble with that one.\n\`\`\`${error}\`\`\``);
     }
 });
 
