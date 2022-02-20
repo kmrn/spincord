@@ -1,11 +1,11 @@
 import { MessageAttachment } from 'discord.js';
 import { mocked } from 'ts-jest/utils';
 
-import Discogs, { discogsRootUrl, MarketplaceStats, Result } from '../src/discogs';
-import Spincord from '../src/spincord';
+import Discogs, { discogsRootUrl, MarketplaceStats, Result } from '../../discogs';
+import Spincord from '../spincord';
 
 // mock dependencies
-jest.mock('../src/discogs');
+jest.mock('../../discogs');
 const mockedDiscogs = mocked(Discogs, true);
 
 // tested class

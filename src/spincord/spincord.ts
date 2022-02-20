@@ -2,8 +2,10 @@
  * spincord.ts
  */
 
-import { Message, MessageAttachment } from 'discord.js';
-import Discogs, { discogsRootUrl } from './discogs';
+import { CommandInteraction, MessageAttachment } from 'discord.js';
+import Discogs, { discogsRootUrl } from '../discogs';
+
+import { SpincordCommands } from '../constants/constants';
 
 const { SPINCORD_DISCOGS_KEY, SPINCORD_DISCOGS_SECRET } = process.env;
 const discogs = new Discogs(SPINCORD_DISCOGS_KEY as string, SPINCORD_DISCOGS_SECRET as string);
@@ -81,41 +83,38 @@ class Spincord {
      * @param command string discord command being issued
      * @param query the argument string following the command
      */
-    async run(command: string, query: string, message: Message): Promise<void> {
-        const { channel } = message;
-        switch (command) {
-            case 'album':
-                channel.send(await this.getAlbumInfo(query));
+    async getResponse(interaction: CommandInteraction): Promise<string | MessageAttachment> {
+        let response: string | MessageAttachment = '';
+
+        switch (interaction.commandName) {
+            case SpincordCommands.album.name:
+                response = await this.getAlbumInfo(
+                    interaction.options.getString(SpincordCommands.album.argumentName, true),
+                );
                 break;
-            case 'albumart':
-                channel.send(await this.getAlbumArt(query));
+            case SpincordCommands.albumart.name:
+                response = await this.getAlbumInfo(
+                    interaction.options.getString(SpincordCommands.albumart.argumentName, true),
+                );
                 break;
-            case 'artisturl':
-            case 'artistinfo':
-                channel.send(await this.getArtistInfo(query));
+            case SpincordCommands.pricecheck.name:
+                response = await this.getStartingPrice(
+                    interaction.options.getString(SpincordCommands.pricecheck.argumentName, true),
+                );
                 break;
-            case 'artistimage':
-            case 'artistart':
-            case 'artistpic':
-                channel.send(await this.getArtistImage(query));
+            case SpincordCommands.artistinfo.name:
+                response = await this.getArtistInfo(
+                    interaction.options.getString(SpincordCommands.artistinfo.argumentName, true),
+                );
                 break;
-            case 'pricecheck':
-                channel.send(await this.getStartingPrice(query));
-                break;
-            case 'spincord':
-            case 'spincordhelp':
-            case 'spincord-help':
-                // Send help message string
-                channel.send(
-                    '**How to Use Spincord**\n' +
-                        ":scroll:\t`!album [album name]` -> posts [album name]'s title, artist, and link to discogs release. Cover art attached.\n" +
-                        ':frame_photo:\t`!albumart [album name]` -> posts the cover art for [album name]\n' +
-                        ':woman_artist:\t`!artist [artist name]` -> \n' +
-                        ':money_with_wings:\t`!pricecheck [album name]` -> lets you know what [album name] is currently going for on the market\n' +
-                        ':person_raising_hand:\t`!spincord` -> displays this message',
+            case SpincordCommands.artistpic.name:
+                response = await this.getArtistImage(
+                    interaction.options.getString(SpincordCommands.artistpic.argumentName, true),
                 );
                 break;
         }
+
+        return response;
     }
 }
 
