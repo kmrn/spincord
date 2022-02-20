@@ -1,6 +1,6 @@
 name: Spincord CI/CD
 
-on: 
+on:
   push:
     branches:
       - main
@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Install dependencies
         run: yarn install
 
@@ -69,7 +69,10 @@ jobs:
 
     - name: Build production javascipt
       run: yarn build
-    
+
+    - name: Register slash commands
+      run: yarn register
+
     - name: SSH deploy
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
@@ -78,7 +81,7 @@ jobs:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         TARGET: ${{ secrets.REMOTE_TARGET }}
-        
+
     - name: Set up and restart production server
       uses: garygrossgarten/github-action-ssh@release
       with:
@@ -87,7 +90,7 @@ jobs:
         username: ${{ secrets.REMOTE_USER }}
         privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: update deployment status
+    - name: Update deployment status
       uses: bobheadxi/deployments@master
       if: always()
       with:
