@@ -70,9 +70,7 @@ class Spincord {
      * @param query artist name query string
      */
     async getArtistInfo(query: string): Promise<string> {
-        const info = await discogs.getFirstArtistResult(query);
-        console.log(info);
-        const { uri } = info;
+        const { uri } = await discogs.getFirstArtistResult(query);
         const message = discogsRootUrl + uri;
         return message;
     }
