@@ -4,6 +4,7 @@
  * Discord bot for linking discogs info in chat
  */
 
+import 'dotenv/config';
 import { Client, Intents } from 'discord.js';
 import Spincord from './spincord/spincord';
 
