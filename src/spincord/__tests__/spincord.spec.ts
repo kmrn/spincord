@@ -1,11 +1,11 @@
-import { MessageAttachment } from 'discord.js';
-import { mocked } from 'ts-jest/utils';
+import { MessageOptions } from 'discord.js';
+import { mocked } from 'jest-mock';
 
-import Discogs, { discogsRootUrl, MarketplaceStats, Result } from '../../discogs';
+import Discogs, { discogsRootUrl, MarketplaceStats, Result } from '../../utils/discogs';
 import Spincord from '../spincord';
 
 // mock dependencies
-jest.mock('../../discogs');
+jest.mock('../../utils/discogs');
 const mockedDiscogs = mocked(Discogs, true);
 
 // tested class
@@ -73,7 +73,8 @@ test('gets an image attachment for a release', async () => {
 
     const response = await spincord.getAlbumArt('spacy');
 
-    expect(response).toBeInstanceOf(MessageAttachment);
+    const expected: MessageOptions = { files: [{ attachment: mockReleaseResult.cover_image }] };
+    expect(response).toStrictEqual(expected);
 });
 
 test('gets a URL for an artist', async () => {
@@ -87,7 +88,8 @@ test('gets a URL for an artist', async () => {
 test('gets an image attachment for an artist', async () => {
     expect.assertions(1);
 
-    const response = await spincord.getAlbumArt('jack stauber');
+    const response = await spincord.getArtistImage('jack stauber');
 
-    expect(response).toBeInstanceOf(MessageAttachment);
+    const expected: MessageOptions = { files: [{ attachment: mockArtistResult.cover_image }] };
+    expect(response).toStrictEqual(expected);
 });
