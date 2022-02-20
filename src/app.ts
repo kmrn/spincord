@@ -18,8 +18,7 @@ client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) return;
 
     try {
-        const response = await spincord.getResponse(interaction);
-        interaction.reply(response);
+        await spincord.sendResponse(interaction);
     } catch (error) {
         interaction.reply(`Ran into some trouble with that one.\n\`\`\`${error}\`\`\``);
     }

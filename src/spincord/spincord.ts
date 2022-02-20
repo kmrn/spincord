@@ -2,8 +2,8 @@
  * spincord.ts
  */
 
-import { CommandInteraction, MessageAttachment } from 'discord.js';
-import Discogs, { discogsRootUrl } from '../discogs';
+import { CommandInteraction, MessageOptions } from 'discord.js';
+import Discogs, { discogsRootUrl } from '../utils/discogs';
 
 import { SpincordCommands } from '../constants/constants';
 
@@ -44,10 +44,10 @@ class Spincord {
      * Takes a query string and returns the closest matched album art.
      * @param query album name/discogs query string
      */
-    async getAlbumArt(query: string): Promise<MessageAttachment> {
+    async getAlbumArt(query: string): Promise<MessageOptions> {
         const { cover_image } = await discogs.getFirstAlbumResult(query);
-        const attachment = new MessageAttachment(cover_image);
-        return attachment;
+        // const attachment = new MessageAttachment(cover_image);
+        return { files: [{ attachment: cover_image }] };
     }
 
     /**
@@ -60,10 +60,9 @@ class Spincord {
         return message;
     }
 
-    async getArtistImage(query: string): Promise<MessageAttachment> {
+    async getArtistImage(query: string): Promise<MessageOptions> {
         const { cover_image } = await discogs.getFirstArtistResult(query);
-        const attachment = new MessageAttachment(cover_image);
-        return attachment;
+        return { files: [{ attachment: cover_image }] };
     }
 
     /**
@@ -83,38 +82,40 @@ class Spincord {
      * @param command string discord command being issued
      * @param query the argument string following the command
      */
-    async getResponse(interaction: CommandInteraction): Promise<string | MessageAttachment> {
-        let response: string | MessageAttachment = '';
-
+    async sendResponse(interaction: CommandInteraction): Promise<void> {
         switch (interaction.commandName) {
             case SpincordCommands.album.name:
-                response = await this.getAlbumInfo(
-                    interaction.options.getString(SpincordCommands.album.argumentName, true),
+                interaction.reply(
+                    await this.getAlbumInfo(interaction.options.getString(SpincordCommands.album.argumentName, true)),
                 );
                 break;
             case SpincordCommands.albumart.name:
-                response = await this.getAlbumInfo(
-                    interaction.options.getString(SpincordCommands.albumart.argumentName, true),
+                interaction.reply(
+                    await this.getAlbumArt(interaction.options.getString(SpincordCommands.albumart.argumentName, true)),
                 );
                 break;
             case SpincordCommands.pricecheck.name:
-                response = await this.getStartingPrice(
-                    interaction.options.getString(SpincordCommands.pricecheck.argumentName, true),
+                interaction.reply(
+                    await this.getStartingPrice(
+                        interaction.options.getString(SpincordCommands.pricecheck.argumentName, true),
+                    ),
                 );
                 break;
             case SpincordCommands.artistinfo.name:
-                response = await this.getArtistInfo(
-                    interaction.options.getString(SpincordCommands.artistinfo.argumentName, true),
+                interaction.reply(
+                    await this.getArtistInfo(
+                        interaction.options.getString(SpincordCommands.artistinfo.argumentName, true),
+                    ),
                 );
                 break;
             case SpincordCommands.artistpic.name:
-                response = await this.getArtistImage(
-                    interaction.options.getString(SpincordCommands.artistpic.argumentName, true),
+                interaction.reply(
+                    await this.getArtistImage(
+                        interaction.options.getString(SpincordCommands.artistpic.argumentName, true),
+                    ),
                 );
                 break;
         }
-
-        return response;
     }
 }
 
