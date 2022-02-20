@@ -6,7 +6,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 
-import { SpincordCommands, Command } from './constants/constants';
+import { SpincordCommands, Command } from '../constants/constants';
 
 const { SPINCORD_BOT_TOKEN, SPINCORD_CLIENT_ID, DISCORD_TEST_GUILD_ID } = process.env;
 
