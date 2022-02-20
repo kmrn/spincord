@@ -16,7 +16,7 @@
     "dev": "ts-node-dev src/app.ts",
     "lint": "eslint . --ext .ts",
     "test": "jest",
-    "register": "tsc && node dist/deploy_commands"
+    "register": "tsc && node dist/utils/deploy_commands"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
