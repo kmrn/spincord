@@ -3,4 +3,4 @@
  */
 
 export { SpincordCommands, Command } from './lib/commands';
-// export { Replies } from './replies';
+export { Replies } from './lib/replies';

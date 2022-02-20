@@ -1,5 +1,6 @@
 import { MessageOptions } from 'discord.js';
 import { mocked } from 'jest-mock';
+import { Replies } from '../../constants/constants';
 
 import Discogs, { discogsRootUrl, MarketplaceStats, Result } from '../../utils/discogs';
 import Spincord from '../spincord';
@@ -55,9 +56,10 @@ test('gets the starting price for a release', async () => {
 
     const response = await spincord.getStartingPrice('spacy');
 
-    expect(response).toContain(
-        'Wow! Must be pretty rare. 15 of those are listed for sale right now starting at **$150.00**.',
-    );
+    const expected = Replies.marketplace.somewhatExpensive
+        .replace('{{num_for_sale}}', '15')
+        .replace('{{price}}', '$150.00');
+    expect(response).toContain(expected);
 });
 
 test('gets a URL for a release', async () => {
