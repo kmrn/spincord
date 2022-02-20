@@ -60,6 +60,10 @@ class Spincord {
         return message;
     }
 
+    /**
+     * Takes a query string and returns an image of an artist.
+     * @param query artist name query string
+     */
     async getArtistImage(query: string): Promise<MessageOptions> {
         const { cover_image } = await discogs.getFirstArtistResult(query);
         return { files: [{ attachment: cover_image }] };
@@ -77,8 +81,7 @@ class Spincord {
 
     /**
      * Takes a discord command and sends a reply string.
-     * @param command string discord command being issued
-     * @param query the argument string following the command
+     * @param interaction discord command interaction
      */
     async sendResponse(interaction: CommandInteraction): Promise<void> {
         switch (interaction.commandName) {
