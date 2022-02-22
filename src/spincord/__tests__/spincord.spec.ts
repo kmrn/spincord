@@ -1,11 +1,12 @@
-import { MessageAttachment } from 'discord.js';
-import { mocked } from 'ts-jest/utils';
+import { MessageOptions } from 'discord.js';
+import { mocked } from 'jest-mock';
+import { Replies } from '../../constants/constants';
 
-import Discogs, { discogsRootUrl, MarketplaceStats, Result } from '../src/discogs';
-import Spincord from '../src/spincord';
+import Discogs, { discogsRootUrl, MarketplaceStats, Result } from '../../utils/discogs';
+import Spincord from '../spincord';
 
 // mock dependencies
-jest.mock('../src/discogs');
+jest.mock('../../utils/discogs');
 const mockedDiscogs = mocked(Discogs, true);
 
 // tested class
@@ -19,8 +20,7 @@ const mockArtistResult: Result = {
     master_url: null,
     uri: '/artist/6394903-Jack-Stauber',
     title: 'Jack Stauber',
-    thumb:
-        'https://i.discogs.com/BNa4X1ZQHr4C9tG0lcmJVfuurVR2ZG8idABgON8fq_4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWltYWdlcy9BLTYz/OTQ5MDMtMTYxOTgy/OTA2NC0xNzI0Lmpw/ZWc.jpeg',
+    thumb: 'https://i.discogs.com/BNa4X1ZQHr4C9tG0lcmJVfuurVR2ZG8idABgON8fq_4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWltYWdlcy9BLTYz/OTQ5MDMtMTYxOTgy/OTA2NC0xNzI0Lmpw/ZWc.jpeg',
     cover_image:
         'https://i.discogs.com/GqXaRGy7mm_lRmvzFKdLTV80OhGHXU0XB0idnCir3C0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWltYWdlcy9BLTYz/OTQ5MDMtMTYxOTgy/OTA2NC0xNzI0Lmpw/ZWc.jpeg',
     resource_url: 'https://api.discogs.com/artists/6394903',
@@ -34,8 +34,7 @@ const mockReleaseResult: Result = {
     master_url: 'https://api.discogs.com/masters/567245',
     uri: '/release/1006498-%E5%B1%B1%E4%B8%8B%E9%81%94%E9%83%8E-Spacy',
     title: '山下達郎* - Spacy',
-    thumb:
-        'https://i.discogs.com/iOCloI__juHw6sShBbhetSwo4ZN0HxzaCQJr56E-XSI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWltYWdlcy9SLTEw/MDY0OTgtMTUyNjg0/MjQxOC04NDQ0Lmpw/ZWc.jpeg',
+    thumb: 'https://i.discogs.com/iOCloI__juHw6sShBbhetSwo4ZN0HxzaCQJr56E-XSI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWltYWdlcy9SLTEw/MDY0OTgtMTUyNjg0/MjQxOC04NDQ0Lmpw/ZWc.jpeg',
     cover_image:
         'https://i.discogs.com/MmD1LbNP2kMkdFZ0XNEwxZIz4yip_lsSY6x07aw6nH4/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWltYWdlcy9SLTEw/MDY0OTgtMTUyNjg0/MjQxOC04NDQ0Lmpw/ZWc.jpeg',
     resource_url: 'https://api.discogs.com/releases/1006498',
@@ -57,9 +56,10 @@ test('gets the starting price for a release', async () => {
 
     const response = await spincord.getStartingPrice('spacy');
 
-    expect(response).toContain(
-        'Wow! Must be pretty rare. 15 of those are listed for sale right now starting at **$150.00**.',
-    );
+    const expected = Replies.marketplace.somewhatExpensive
+        .replace('{{num_for_sale}}', '15')
+        .replace('{{price}}', '$150.00');
+    expect(response).toContain(expected);
 });
 
 test('gets a URL for a release', async () => {
@@ -75,7 +75,8 @@ test('gets an image attachment for a release', async () => {
 
     const response = await spincord.getAlbumArt('spacy');
 
-    expect(response).toBeInstanceOf(MessageAttachment);
+    const expected: MessageOptions = { files: [{ attachment: mockReleaseResult.cover_image }] };
+    expect(response).toStrictEqual(expected);
 });
 
 test('gets a URL for an artist', async () => {
@@ -89,7 +90,8 @@ test('gets a URL for an artist', async () => {
 test('gets an image attachment for an artist', async () => {
     expect.assertions(1);
 
-    const response = await spincord.getAlbumArt('jack stauber');
+    const response = await spincord.getArtistImage('jack stauber');
 
-    expect(response).toBeInstanceOf(MessageAttachment);
+    const expected: MessageOptions = { files: [{ attachment: mockArtistResult.cover_image }] };
+    expect(response).toStrictEqual(expected);
 });

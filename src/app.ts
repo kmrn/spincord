@@ -4,30 +4,24 @@
  * Discord bot for linking discogs info in chat
  */
 
-import { Client, Message } from 'discord.js';
-import Spincord from './spincord';
+import 'dotenv/config';
+import { Client, Intents } from 'discord.js';
+import Spincord from './spincord/spincord';
 
-const prefix = '!';
-const client = new Client();
+const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const spincord = new Spincord();
 
 client.on('ready', () => {
     console.log('Spincord is now listening for commands...');
 });
 
-client.on('message', async (message: Message) => {
-    const { content, author } = message;
-    if (author.bot || !content.startsWith(prefix)) {
-        return;
-    }
-    const [commandString] = content.split(' ');
-    const command = commandString.slice(prefix.length).toLowerCase();
-    const args = content.slice(commandString.length + 1);
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isCommand()) return;
 
     try {
-        await spincord.run(command, args, message);
+        await spincord.sendResponse(interaction);
     } catch (error) {
-        message.reply(`Ran into some trouble with that one.\n\`\`\`${error}\`\`\``);
+        interaction.reply(`Ran into some trouble with that one.\n\`\`\`${error}\`\`\``);
     }
 });
 

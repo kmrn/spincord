@@ -1,6 +1,6 @@
 name: Spincord CI/CD
 
-on: 
+on:
   push:
     branches:
       - main
@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Install dependencies
         run: yarn install
 
@@ -22,9 +22,6 @@ jobs:
   # run all unit tests
   test:
     runs-on: ubuntu-latest
-    env:
-      SPINCORD_DISCOGS_KEY: ${{ secrets.SPINCORD_DISCOGS_KEY }}
-      SPINCORD_DISCOGS_SECRET: ${{ secrets.SPINCORD_DISCOGS_SECRET }}
 
     steps:
       - uses: actions/checkout@v2
@@ -69,7 +66,10 @@ jobs:
 
     - name: Build production javascipt
       run: yarn build
-    
+
+    - name: Register slash commands
+      run: yarn register
+
     - name: SSH deploy
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
@@ -78,16 +78,20 @@ jobs:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         TARGET: ${{ secrets.REMOTE_TARGET }}
-        
+
     - name: Set up and restart production server
       uses: garygrossgarten/github-action-ssh@release
+      env:
+        PRODUCTION_DOTENV: ${{ secrets.PRODUCTION_DOTENV }}
       with:
-        command: pm2 restart spincord/app.js || pm2 start spincord/app.js
+        command: |
+          echo "${PRODUCTION_DOTENV}" > "spincord/.env"
+          pm2 restart spincord/app.js || pm2 start spincord/app.js
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: update deployment status
+    - name: Update deployment status
       uses: bobheadxi/deployments@master
       if: always()
       with:

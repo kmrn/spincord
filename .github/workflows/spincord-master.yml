@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Install dependencies
         run: yarn install
 
@@ -19,9 +19,6 @@ jobs:
   # run all unit tests
   test:
     runs-on: ubuntu-latest
-    env:
-      SPINCORD_DISCOGS_KEY: ${{ secrets.SPINCORD_DISCOGS_KEY }}
-      SPINCORD_DISCOGS_SECRET: ${{ secrets.SPINCORD_DISCOGS_SECRET }}
 
     steps:
       - uses: actions/checkout@v2
@@ -40,7 +37,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install
 
       - name: Build
         run: yarn build
