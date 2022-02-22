@@ -90,7 +90,7 @@ jobs:
       with:
         command: |
           echo "${PRODUCTION_DOTENV}" > "spincord/.env"
-          pm2 restart spincord/app.js || pm2 start spincord/app.js
+          pm2 restart spincord/app.js --update-env || pm2 start spincord/app.js --update-env
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
