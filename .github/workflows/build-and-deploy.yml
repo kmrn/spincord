@@ -73,7 +73,7 @@ jobs:
 
 
     - name: Register slash commands
-      run: yarn register
+      run: cd dist; node utils/deploy_commands; cd ..
 
     - name: SSH deploy
       uses: easingthemes/ssh-deploy@v2.1.5
