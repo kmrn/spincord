@@ -65,14 +65,15 @@ jobs:
       run: yarn install
 
     - name: Build production javascipt
-      run: yarn build
-
-    - name: Register slash commands
       env:
         PRODUCTION_DOTENV: ${{ secrets.PRODUCTION_DOTENV }}
       run: |
-        echo "${PRODUCTION_DOTENV}" > ".env"
-        yarn register
+        yarn build
+        echo "${PRODUCTION_DOTENV}" > "dist/.env"
+
+
+    - name: Register slash commands
+      run: yarn register
 
     - name: SSH deploy
       uses: easingthemes/ssh-deploy@v2.1.5
@@ -85,14 +86,8 @@ jobs:
 
     - name: Set up and restart production server
       uses: garygrossgarten/github-action-ssh@release
-      env:
-        PRODUCTION_DOTENV: ${{ secrets.PRODUCTION_DOTENV }}
       with:
-        command: |
-          rm -rf spincord
-          echo "${PRODUCTION_DOTENV}" > "spincord/.env"
-          cd spincord; yarn install --production; cd ..
-          pm2 restart spincord/app.js --update-env || pm2 start spincord/app.js --update-env
+        command: pm2 restart spincord/app.js --update-env || pm2 start spincord/app.js --update-env
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
