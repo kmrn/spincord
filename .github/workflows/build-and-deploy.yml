@@ -54,7 +54,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Start deployment
-      uses: bobheadxi/deployments@master
+      uses: bobheadxi/deployments@v1
       id: deployment
       with:
         step: start
@@ -92,7 +92,7 @@ jobs:
         privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Update deployment status
-      uses: bobheadxi/deployments@master
+      uses: bobheadxi/deployments@v1
       if: always()
       with:
         step: finish
