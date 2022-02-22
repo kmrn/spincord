@@ -1,0 +1,12 @@
+---
+layout: post
+title: Release v2.0.0
+date: 2022-02-22T03:57:56Z
+author: spincord-ci
+categories: release
+---
+
+Discord's new slash commands improve command discoverability and usability by clearly showing what arguments each command takes. Given that this is the new standard for how bots on Discord will function, it made sense to implement this new approach sooner rather than later. The only major difference is that commands start with a `/` instead of an `!`.  The bad news is that due to this new paradigm, Spincord needs a new permission that it didn't previously need (specifically the ability to create new commands in your server). Don't fret though! All you have to do enable this new permission is [reauthorize Spincord by linking this link right here](https://discord.com/api/oauth2/authorize?client_id=755180651388338196&permissions=51200&scope=bot).  Apologies for any inconvenience!
+
+[View this release on GitHub](https://api.github.com/repos/kmrn/spincord/releases/60096853)
+
