@@ -1,12 +1,12 @@
 title: Spincord
 email: hello@kamranpayne.com
 description: The Discogs client for Discord.
-baseurl: "/spincord/" # the subpath of your site, e.g. /blog
+baseurl: "/spincord" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_url: "https://github.com/kmrn/spincord"
 twitter_username: kamranpayne
 github_username:  kmrn
-discord_invite_url: "https://discord.com/api/oauth2/authorize?client_id=755180651388338196&permissions=51200&scope=bot"
+discord_invite_url: "https://discord.com/oauth2/authorize?client_id=755180651388338196&permissions=277025442816&scope=applications.commands%20bot"
 
 # Build settings
 plugins:
