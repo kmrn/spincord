@@ -1,6 +1,6 @@
 {
   "name": "spincord",
-  "version": "1.0.0",
+  "version": "2.0.1",
   "description": "a discord bot for getting album info in chat",
   "main": "dist/app.js",
   "repository": {

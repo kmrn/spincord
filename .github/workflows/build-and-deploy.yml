@@ -89,7 +89,9 @@ jobs:
         PRODUCTION_DOTENV: ${{ secrets.PRODUCTION_DOTENV }}
       with:
         command: |
+          rm -rf spincord
           echo "${PRODUCTION_DOTENV}" > "spincord/.env"
+          cd spincord; yarn install --production; cd ..
           pm2 restart spincord/app.js --update-env || pm2 start spincord/app.js --update-env
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
