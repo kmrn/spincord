@@ -71,7 +71,7 @@ jobs:
       env:
         PRODUCTION_DOTENV: ${{ secrets.PRODUCTION_DOTENV }}
       run: |
-        echo "${PRODUCTION_DOTENV}" > "spincord/.env"
+        echo "${PRODUCTION_DOTENV}" > ".env"
         yarn register
 
     - name: SSH deploy
