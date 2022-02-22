@@ -99,7 +99,7 @@ jobs:
       uses: bobheadxi/deployments@v1
       if: always()
       with:
-       step: finish
+        step: finish
         token: ${{ secrets.GITHUB_TOKEN }}
         status: ${{ job.status }}
         env: ${{ steps.deployment.outputs.env }}
