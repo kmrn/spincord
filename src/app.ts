@@ -28,7 +28,9 @@ client.on('interactionCreate', async (interaction: Interaction) => {
 client.on('messageCreate', (message: Message) => {
     const { content, author } = message;
     if (!author.bot && content.startsWith('!spincord')) {
-        message.reply("Spincord now uses slash commands! Type /spincord to see what's up.");
+        message.reply(
+            "Spincord now uses slash commands! Look at Spincord's icon in your commands list to see what's up.",
+        );
     }
 });
 
